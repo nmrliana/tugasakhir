@@ -169,7 +169,7 @@
 											{{ucwords($item->menu_harga)}}/Porsi
 										</td>
 										<td>{{$item->menu_qty}}x</td>
-										<td><a href="" class="text-danger">Hapus</a></td>
+										<td><a href="{{url('kasir/hapus',$item->pesanan_menu_id)}}" class="text-danger">Hapus</a></td>
 									</tr>
 									@endforeach
 								</tbody>

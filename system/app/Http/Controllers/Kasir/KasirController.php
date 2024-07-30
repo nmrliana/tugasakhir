@@ -9,8 +9,11 @@ use App\Models\Pesanan;
 use App\Models\PesananMenu;
 use App\Models\MenuKategori;
 use Auth;
+
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Carbon\Carbon;
 class KasirController extends Controller
 {
@@ -26,11 +29,11 @@ class KasirController extends Controller
         ->where('auth_id',Auth::id())
         ->count();
 
-          $data['list_pesanan'] = PesananMenu::where('pesanan_status',0)
-          ->where('auth_id',Auth::id())
-          ->get();
+        $data['list_pesanan'] = PesananMenu::where('pesanan_status',0)
+        ->where('auth_id',Auth::id())
+        ->get();
 
-          $data['kategori'] = MenuKategori::where('flag_erase',1)->get();
+        $data['kategori'] = MenuKategori::where('flag_erase',1)->get();
         return view('kasir.beranda',$data)->with('success','Selamat datang');
     }
 
@@ -51,7 +54,7 @@ class KasirController extends Controller
             $pesanan->menu_qty = 1;
             $pesanan->auth_id = Auth::id();
             $pesanan->save();
-      
+
         }else{
             PesananMenu::where('menu_id',$menu->menu_id)
             ->where('pesanan_status',0)
@@ -69,6 +72,11 @@ class KasirController extends Controller
         ->where('auth_id',Auth::id())
         ->delete();
         return back()->with('success','Menu berhasil direset');
+    }
+
+    function deleteMenu(PesananMenu $pesanan){
+        $pesanan->delete();
+        return back();
     }
 
     function prosesPesanan(){
@@ -96,34 +104,33 @@ class KasirController extends Controller
     function cetak(Pesanan $pesanan){
         $data['pesanan'] = $pesanan;
         $data['list_pesanan'] = PesananMenu::where('pesanan_id', $pesanan->pesanan_id)->get();
-        return view('kasir.cetak', $data);
 
         // Set up printer
-        // $connector = new WindowsPrintConnector("smb://computer/printer"); // Adjust the printer path
-        // $printer = new Printer($connector);
+        $connector = new WindowsPrintConnector("FK80 Printer");
+        $printer = new Printer($connector);
 
-        // // Print receipt
-        // $printer->setJustification(Printer::JUSTIFY_CENTER);
-        // $printer->text("Receipt\n");
-        // $printer->text("Order ID: " . $pesanan->id . "\n");
-        // $printer->text("Date: " . $pesanan->created_at . "\n");
-        // $printer->text("-----------------------------\n");
+    // Print receipt
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("Alas Daun\n");
+        $printer->text("Order ID: " . $pesanan->pesanan_id . "\n");
+        $printer->text("Date: " . $pesanan->created_at . "\n");
+        $printer->text("-----------------------------\n");
 
-        // foreach ($pesanan->items as $item) { // Assuming you have a relationship set up
-        //     $printer->setJustification(Printer::JUSTIFY_LEFT);
-        //     $printer->text($item->menu_nama . " x " . $item->menu_qty . "\n");
-        //     $printer->setJustification(Printer::JUSTIFY_RIGHT);
-        //     $printer->text("Rp. " . number_format($item->menu_harga * $item->menu_qty) . "\n");
-        // }
+        foreach ($data['list_pesanan'] as $item) {
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text($item->menu->menu_nama . " x " . $item->menu_qty . "\n");
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $printer->text("Rp. " . number_format($item->menu_harga * $item->menu_qty) . "\n");
+        }
 
-        // $printer->text("-----------------------------\n");
-        // $printer->setJustification(Printer::JUSTIFY_RIGHT);
-        // $printer->text("Total: Rp. " . number_format($pesanan->pesanan_total_harga) . "\n");
+        $printer->text("-----------------------------\n");
+        $printer->setJustification(Printer::JUSTIFY_RIGHT);
+        $printer->text("Total: Rp. " . number_format($pesanan->pesanan_total_harga) . "\n");
 
-        // $printer->cut();
-        // $printer->close();
+        $printer->cut();
+        $printer->close();
 
-        // return view('kasir.cetak', $data);
+        return view('kasir.cetak', $data);
     }
 
     function history(){

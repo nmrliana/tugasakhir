@@ -125,6 +125,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('tambah/{menu}', 'tambah');
                 Route::post('proses', 'prosesPesanan');
                 Route::get('cetak/{pesanan}', 'cetak');
+                Route::get('hapus/{pesanan}', 'deleteMenu');
                 Route::get('history', 'history');
             });
 

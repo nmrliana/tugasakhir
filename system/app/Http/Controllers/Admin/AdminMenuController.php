@@ -28,7 +28,7 @@ class AdminMenuController extends Controller
         $menu->menu_satuan = request('menu_satuan');
         $menu->handleUploadFoto();
         $menu->save();
-        return redirect('admin/master-data/data-menu')->with('success','Menu makanan berhasil dibuat');
+        return redirect('admin/master-data/data-menu')->with('success','Menu berhasil dibuat');
     }
 
     function show(Menu $menu){
