@@ -19,7 +19,8 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: rgba(0, 0, 0, 0.2); /* Ubah nilai alpha untuk tingkat kegelapan */
+		background: rgba(0, 0, 0, 0.2);
+		/* Ubah nilai alpha untuk tingkat kegelapan */
 	}
 
 	.carousel-caption {
@@ -28,7 +29,8 @@
 		width: 100%;
 		left: 30%;
 		transform: translate(-30%, -30%);
-		color: #fff; /* Teks putih */
+		color: #fff;
+		/* Teks putih */
 	}
 
 
@@ -50,7 +52,8 @@
 		width: 60px;
 		height: 60px;
 		object-fit: cover;
-		border-radius: 50%; /* Mengubah gambar menjadi kotak dengan sudut sedikit melengkung */
+		border-radius: 50%;
+		/* Mengubah gambar menjadi kotak dengan sudut sedikit melengkung */
 	}
 
 	.edit-icon {
@@ -74,11 +77,12 @@
 	.profile-job {
 		margin: 0;
 	}
-	center{
+
+	center {
 		background: none;
 	}
 
-	center{
+	center {
 		background: none;
 	}
 </style>
@@ -86,13 +90,13 @@
 <div class="row">
 	<div class="col-md-7">
 
-		<div class="row " style="height: 90vh; overflow-y: scroll;">
+		<div class="row ">
 			@foreach($kategori as $k)
 
 			<div class="col-md-12 mb-3">
 				<h3>{{ucwords($k->menu_kategori_nama)}}</h3>
 			</div>
-			
+
 			@foreach(App\Models\Menu::where('menu_kategori_id',$k->menu_kategori_id)->get() as $item)
 			<div class="col-md-3 col-lg-4 col-sm-4 col-6 mb-4">
 				<div class="card">
@@ -108,9 +112,9 @@
 			</div>
 			@endforeach
 
-		
+
 			@endforeach
-			
+
 
 		</div>
 	</div>
@@ -120,16 +124,16 @@
 		@php
 		$totalHarga = 0;
 		foreach($list_pesanan as $item) {
-			$totalHarga += $item->menu_harga * $item->menu_qty;
+		$totalHarga += $item->menu_harga * $item->menu_qty;
 		}
 		@endphp
 		<div class="card shadow">
 			<div class="card-body">
 				<center>
 					<div class="profile-container">
-						<img src="{{asset('system/public')}}/{{Auth::user()->karyawan_foto}}" width="40px" onerror="this.onerror=null;this.src='{{url("public")}}/assets/images/faces/face4.jpg';"   class="profile-image">
+						<img src="{{ asset('system/public/' . Auth::user()->karyawan_foto) }}" width="40px" onerror=this.onerror=null ; this.src='{{ url('public/assets/images/faces/face4.jpg')}}' ;" class="profile-image">
 					</div>
-					<br>  {{ucwords(Auth::user()->karyawan_nama)}}
+					<br> {{ucwords(Auth::user()->karyawan_nama)}}
 
 					<h3 class="mt-3">Detail Pesanan</h3>
 				</center>
@@ -172,9 +176,26 @@
 										<td><a href="{{url('kasir/hapus',$item->pesanan_menu_id)}}" class="text-danger">Hapus</a></td>
 									</tr>
 									@endforeach
+									@php
+									$total = $list_pesanan->sum('menu_qty');
+									@endphp
+									<tr class="bg-secondary">
+										<td colspan="1">
+											<h4>Jumlah Pesanan</h4>
+										</td>
+										<td colspan="2">
+											<h4>{{$total}}</h4>
+										</td>
+									</tr>
+
+									<tr>
+										<td colspan="3">
+											<textarea name="pesanan_catatan" placeholder="Catatan Pesanan..." style="height:200px" class="form-control" id=""></textarea>
+										</td>
+									</tr>
 								</tbody>
 								<tfoot>
-									
+
 									<tr>
 										<td colspan="4">
 											<a href="{{url('kasir/reset-pesanan')}}" onclick="return confirm('Yakin reset pesanan?')" class="btn btn-danger btn-sm float-right"> <i class="mdi mdi-loop"></i> Reset</a>
@@ -193,7 +214,9 @@
 
 									<tr>
 										<td colspan="4">
-											<button type="submit" class="btn btn-primary btn-lg  btn-block"><h3>Proses Pesanan</h3></button>
+											<button type="submit" class="btn btn-primary btn-lg  btn-block">
+												<h3>Proses Pesanan</h3>
+											</button>
 
 										</td>
 									</tr>
@@ -203,7 +226,7 @@
 						@endif
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>

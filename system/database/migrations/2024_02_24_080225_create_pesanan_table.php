@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('pesanan_bulan')->nullable();
             $table->text('pesanan_tahun')->nullable();
             $table->text('pesanan_total_harga')->nullable();
+            $table->text('pesanan_catatan')->nullable();
             $table->integer('flag_erase')->default(1);
             $table->timestamps();
         });

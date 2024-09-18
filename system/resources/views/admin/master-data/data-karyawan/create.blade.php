@@ -66,7 +66,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="">No Telp</label>
-						<input type="text" required placeholder="Alamat Karyawan" name="karyawan_notlp" class="form-control">
+						<input type="number" required placeholder="Alamat Karyawan" name="karyawan_notlp" class="form-control">
 					</div>
 				</div>
 

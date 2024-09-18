@@ -16,35 +16,48 @@
   <link rel="stylesheet" href="{{url('public')}}/assets/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="{{url('public')}}/assets/logo-putih.png" />
+  
+  <style>
+    /* Ensuring that there is no double scroll bar */
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    .main-panel {
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .content-wrapper {
+      padding: 1rem;
+    }
+  </style>
 </head>
-<body class="sidebar-icon-only">
-  <div class="container-scroller d-flex">
 
+<body class="sidebar-icon-only">
+  <div class="container-scroller">
     <div class="container-fluid page-body-wrapper">
       <!-- partial:./partials/_navbar.html -->
-      <nav class="navbar col-lg-12 col-12 px-0 py-0 py-lg-4 d-flex flex-row" style="max-height: 15vh !important; background-color: #25695c;">
+      <nav class="navbar col-lg-12 col-12 px-0 py-0 py-lg-4" style="max-height: 15vh !important; background-color: #25695c;">
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-         
           <div class="navbar-brand-wrapper">
             <a class="navbar-brand brand-logo" href="index.html"><img src="{{url('public')}}/assets/logo-putih.png" width="60px" alt="logo"/></a>
             <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{url('public')}}/assets/logo.png" alt="logo"/></a>
           </div>
-          <h1 class="font-weight-bold mb-0 d-none d-md-block mt-1  pb-3">RM. Seafood Alas Daun</h1>
+          <h1 class="font-weight-bold mb-0 d-none d-md-block mt-1 pb-3">RM. Seafood Alas Daun</h1>
           <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item">
               <h4 class="mb-0 font-weight-bold d-none d-xl-block">{{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</h4>
             </li>
 
             <li class="nav-item dropdown mr-2">
-              <a class="nav-link btn p-2 btn-light text-dark count-indicator dropdown-toggle d-flex align-items-center justify-content-center" href="{{url('kasir/history')}}" >
-                <i class="mdi mdi-restore mx-0"></i>  History Pesanan
+              <a class="nav-link btn p-2 btn-light text-dark count-indicator dropdown-toggle d-flex align-items-center justify-content-center" href="{{url('kasir/history')}}">
+                <i class="mdi mdi-restore mx-0"></i> History Pesanan
               </a>
             </li>
 
-
             <li class="nav-item dropdown mr-2">
               <a class="nav-link btn p-2 btn-light text-danger count-indicator dropdown-toggle d-flex align-items-center justify-content-center" href="{{url('logout')}}" onclick="return confirm('Yakin untuk keluar aplikasi?')">
-                <i class="mdi mdi-logout mx-0"></i>  Keluar
+                <i class="mdi mdi-logout mx-0"></i> Keluar
               </a>
             </li>
           </ul>
@@ -52,17 +65,12 @@
             <span class="mdi mdi-menu"></span>
           </button>
         </div>
-      
       </nav>
-
-      
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
           @yield('content')
-
         </div>
-      </div>
         <!-- content-wrapper ends -->
         <!-- partial:./partials/_footer.html -->
         <footer class="footer">
@@ -102,37 +110,36 @@
   <script src="{{url('public')}}/assets/js/dashboard.js"></script>
   <!-- End custom js for this page-->
 
-
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- Notifikasi -->
-@foreach(['success', 'warning', 'error', 'info'] as $status)
-@if (session($status))
-<script>
-  Swal.fire({
-    icon: "{{ $status }}",
-    title: "{{ Str::upper($status) }}",
-    text: "{{ session($status) }}!",
-    showConfirmButton: false,
-    timer: 3000
-})
-</script>
-@endif
-@endforeach
-
-<script>
-    jQuery(document).ready(function(){
-        $('.summernote').summernote({
-                    height: 230,                 // set editor height
-                    minHeight: null,             // set minimum height of editor
-                    maxHeight: null,             // set maximum height of editor
-                    focus: false                 // set focus to editable area after initializing summernote
-                });
+  <!-- Notifikasi -->
+  @foreach(['success', 'warning', 'error', 'info'] as $status)
+  @if (session($status))
+  <script>
+    Swal.fire({
+      icon: "{{ $status }}",
+      title: "{{ Str::upper($status) }}",
+      text: "{{ session($status) }}!",
+      showConfirmButton: false,
+      timer: 3000
     });
-</script>
+  </script>
+  @endif
+  @endforeach
 
-<script>
-   $('.dataTable').DataTable();
-</script>
+  <script>
+    jQuery(document).ready(function(){
+      $('.summernote').summernote({
+        height: 230, // set editor height
+        minHeight: null, // set minimum height of editor
+        maxHeight: null, // set maximum height of editor
+        focus: false // set focus to editable area after initializing summernote
+      });
+    });
+  </script>
+
+  <script>
+    $('.dataTable').DataTable();
+  </script>
 </body>
 
 </html>

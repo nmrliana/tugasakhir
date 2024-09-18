@@ -29,18 +29,18 @@
 					<tr>
 						<td class="text-center">{{$loop->iteration}}</td>
 						<td>{{ucwords($item->karyawan_nama)}} <br>
-						@if($item->karyawan_posisi == 1)
-						<span>(Kasir)</span>
+							@if($item->karyawan_posisi == 1)
+							<span>(Kasir)</span>
 
-						@elseif($item->karyawan_posisi == 2)
-						<span>(Koki)</span>
+							@elseif($item->karyawan_posisi == 2)
+							<span>(Koki)</span>
 
-						@elseif($item->karyawan_posisi == 3)
-						<span>(Pramusaji)</span>
+							@elseif($item->karyawan_posisi == 3)
+							<span>(Pramusaji)</span>
 
-						@elseif($item->karyawan_posisi == 4)
-						<span>(Lainnya)</span>
-						@endif
+							@elseif($item->karyawan_posisi == 4)
+							<span>(Lainnya)</span>
+							@endif
 						</td>
 						<td>{{$item->email}}</td>
 						<td>{{ucwords($item->karyawan_jobdesk)}}</td>
@@ -61,7 +61,7 @@
 
 				<tfoot>
 					<tr class="bg-primary ">
-					<th class="text-center">No</th>
+						<th class="text-center">No</th>
 						<th>Nama Karyawan</th>
 						<th>E-Mail</th>
 						<th>JobDesk</th>

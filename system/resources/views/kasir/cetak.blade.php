@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faktur Pembayaran</title>
     <style>
         #tabel {
             font-size: 15px;
             border-collapse: collapse;
         }
+
         #tabel td {
             padding-left: 5px;
             border: 1px solid black;
         }
+
         hr {
             display: block;
             margin-top: 0.5em;
@@ -21,66 +26,106 @@
             border-width: 1px;
         }
     </style>
+    <style>
+        body {
+            font-family: Tahoma;
+            font-size: 8pt;
+        }
+
+        #receipt {
+            width: 350px;
+            font-size: 16pt;
+            font-family: Calibri;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #header,
+        #footer {
+            text-align: center;
+        }
+
+        #header p {
+            font-size: 11pt;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            font-size: 12pt;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+            text-align: right;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid black;
+            margin: 5px 0;
+        }
+    </style>
 </head>
+
 <body style='font-family: tahoma; font-size: 8pt;'>
     @php
-		$totalHarga = 0;
-		foreach($list_pesanan as $item) {
-			$totalHarga += $item->menu_harga * $item->menu_qty;
-		}
-	@endphp
+    $totalHarga = 0;
+    foreach($list_pesanan as $item) {
+    $totalHarga += $item->menu_harga * $item->menu_qty;
+    }
+    @endphp
     <center>
-        <table style='width: 350px; font-size: 16pt; font-family: calibri; border-collapse: collapse;' border='0'>
-            <tr>
-                <td width='70%' align='CENTER' vertical-align:top'>
-                    <span style='color: black;'>
-                        <b>RM. ALAS DAUN</b><br>
-                        <p style="font-size: 11pt">Jl. KH.Mansyur, Tengah, Kec. Delta Pawan, Kabupaten Ketapang</p>
-                    </span><br>
-                    <span style='font-size: 12pt'>No. : xxxxx, {{ \Carbon\Carbon::now()->locale('id')->isoFormat('D MMMM YYYY') }} (user:{{Auth::user()->karyawan_nama}}), 11:57:50</span><br>
-                </td>
-            </tr>
-        </table>
-        <table cellspacing='0' cellpadding='0' style='width: 350px; font-size: 12pt; font-family: calibri; border-collapse: collapse;' border='0'>
-            <tr align='center'>
-                <td width='10%'>Item</td>
-                <td width='13%'>Price</td>
-                <td width='4%'>Qty</td>
-                <td width='7%'>Diskon %</td>
-                <td width='13%'>Total</td>
-            </tr>
-            <tr>
-                <td colspan='5'><hr></td>
-            </tr>
-          
-							
-
-            @foreach($list_pesanan as $item)
-            <tr style="margin-top: 20px">
-                <td style='vertical-align:top'>{{ucwords($item->menu->menu_nama)}} </td>
-                <td style='vertical-align:top; text-align:right; padding-right:10px'>{{number_format($item->menu_harga)}} </td>
-                <td style='vertical-align:top; text-align:right; padding-right:10px'>{{$item->menu_qty}}</td>
-                <td style='vertical-align:top; text-align:right; padding-right:10px'>0,00%</td>
-                <td style='text-align:right; vertical-align:top'>{{number_format($item->menu_harga * $item->menu_qty)}}</td>
-            </tr>
-            @endforeach
-            <tr>
-                <td colspan='5'><hr></td>
-            </tr>
-            <tr>
-                <td colspan='4'><div style='text-align:right'>Biaya Adm : </div></td>
-                <td style='text-align:right; font-size:16pt;'>Rp0</td>
-            </tr>
-            <tr>
-                <td colspan='4'><div style='text-align:right; color:black'>Total : </div></td>
-                <td style='text-align:right; font-size:16pt; color:black'>Rp.{{number_format($totalHarga)}}</td>
-            </tr>
-        </table>
-        <table style='width:350; font-size:12pt;' cellspacing='2'>
-            <tr>
-                <td align='center'>****** TERIMAKASIH ******</td>
-            </tr>
-        </table>
+        <div id="receipt">
+            <div id="header">
+                <b>RM. ALAS DAUN</b><br>
+                <p>Jl. KH.Mansyur, Tengah, Kec. Delta Pawan, Kabupaten Ketapang</p>
+                <span style='font-size: 12pt'>
+                    No. : {{$pesanan->pesanan_id}} / {{ \Carbon\Carbon::now()->locale('id')->isoFormat('D MMMM YYYY') }} (user:{{ Auth::user()->karyawan_nama }}), 11:57:50
+                </span>
+            </div>
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($list_pesanan as $item)
+                    <tr>
+                        <td style="text-align: left;">{{ ucwords($item->menu->menu_nama) }}</td>
+                        <td>{{ number_format($item->menu_harga) }}</td>
+                        <td>{{ $item->menu_qty }}</td>
+                        <td>{{ number_format($item->menu_harga * $item->menu_qty) }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <hr>
+            <table>
+                <tr>
+                    <td style="text-align: left;">Biaya Admin :</td>
+                    <td>Rp0</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; color: black;">Total :</td>
+                    <td style="color: black;">Rp{{ number_format($totalHarga) }}</td>
+                </tr>
+            </table>
+            <div id="footer">
+                <span>****** TERIMAKASIH ******</span>
+            </div>
+        </div>
     </center>
 </body>
 

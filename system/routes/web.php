@@ -39,7 +39,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('auth')->group(function () {
 
     // ADMIN PREFIX
-    Route::prefix('admin')->group(function(){
+    Route::prefix('admin')->group(function () {
         Route::controller(AdminController::class)->group(function () {
             Route::get('beranda', 'beranda');
             Route::post('modal-awal', 'modalAwal');
@@ -75,11 +75,8 @@ Route::middleware('auth')->group(function () {
                 Route::put('data-kategori/{kategori}/edit', 'update');
                 Route::get('data-kategori/{kategori}/delete', 'destroy');
             });
-
-           
-
         });
-        
+
         // end master prefix
 
         Route::controller(AdminStokController::class)->group(function () {
@@ -87,18 +84,18 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::prefix('website')->group(function () {
-        Route::controller(AdminWebsiteController::class)->group(function () {
-            Route::get('galeri-pengunjung', 'galeri');
-            Route::get('galeri-pengunjung/{galeri}/delete', 'galeriDestroy');
-            Route::post('galeri-pengunjung', 'galeriStore');
+            Route::controller(AdminWebsiteController::class)->group(function () {
+                Route::get('galeri-pengunjung', 'galeri');
+                Route::get('galeri-pengunjung/{galeri}/delete', 'galeriDestroy');
+                Route::post('galeri-pengunjung', 'galeriStore');
 
-            Route::get('galeri-slide', 'slide');
-            Route::get('galeri-slide/{slide}/delete', 'slideDestroy');
-            Route::post('galeri-slide', 'slideStore');
+                Route::get('galeri-slide', 'slide');
+                Route::get('galeri-slide/{slide}/delete', 'slideDestroy');
+                Route::post('galeri-slide', 'slideStore');
 
-            Route::get('toko', 'toko');
-            Route::put('toko/{toko}/update', 'updateToko');
-        });
+                Route::get('toko', 'toko');
+                Route::put('toko/{toko}/update', 'updateToko');
+            });
         });
 
         Route::controller(AdminLaporanController::class)->group(function () {
@@ -111,23 +108,20 @@ Route::middleware('auth')->group(function () {
             Route::get('profil/{karyawan}/edit', 'edit');
             Route::put('profil/{karyawan}/edit', 'update');
         });
-
-
     });
     // END ADMIN PREFIX
 
 
-    Route::prefix('kasir')->group(function(){
+    Route::prefix('kasir')->group(function () {
 
-         Route::controller(KasirController::class)->group(function () {
-                Route::get('beranda', 'beranda');
-                Route::get('reset-pesanan', 'resetPesanan');
-                Route::get('tambah/{menu}', 'tambah');
-                Route::post('proses', 'prosesPesanan');
-                Route::get('cetak/{pesanan}', 'cetak');
-                Route::get('hapus/{pesanan}', 'deleteMenu');
-                Route::get('history', 'history');
-            });
-
+        Route::controller(KasirController::class)->group(function () {
+            Route::get('beranda', 'beranda');
+            Route::get('reset-pesanan', 'resetPesanan');
+            Route::get('tambah/{menu}', 'tambah');
+            Route::post('proses', 'prosesPesanan');
+            Route::get('cetak/{pesanan}', 'cetak');
+            Route::get('hapus/{pesanan}', 'deleteMenu');
+            Route::get('history', 'history');
+        });
     });
 });

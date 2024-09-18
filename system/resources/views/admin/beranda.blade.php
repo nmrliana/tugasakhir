@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-4">
 		<div class="card bg-primary">
 			<div class="card-body">
 				<center>
@@ -13,7 +13,7 @@
 		</div>
 	</div>
 
-	<div class="col-md-3">
+	<div class="col-md-4">
 		<div class="card bg-primary">
 			<div class="card-body">
 				<center>
@@ -24,7 +24,7 @@
 		</div>
 	</div>
 
-	<div class="col-md-3">
+	<div class="col-md-4">
 		<div class="card bg-primary">
 			<div class="card-body">
 				<center>
@@ -35,16 +35,6 @@
 		</div>
 	</div>
 	
-	<div class="col-md-3">
-		<div class="card bg-primary">
-			<div class="card-body">
-				<center>
-					<h4>Pendapatan/Minggu</h4>
-					<h4>Rp. {{$mingguan}}</h4>
-				</center>
-			</div>
-		</div>
-	</div>
 </div>
 
 <div class="row">
@@ -149,12 +139,12 @@
 	});
 
 	new Chart(ctx2, {
-		type: 'line',
+		type: 'bar',
 		data: {
 			labels: [
-				[@foreach ($list_kategori->sortByDesc('totalKategori') as $item)
+				@foreach ($list_kategori->sortByDesc('totalKategori') as $item)
 					"{{ Str::limit(ucwords($item->menu_kategori_nama),20) }}",
-					@endforeach]
+					@endforeach
 				],
 			datasets: [{
 				label: 'Menu Terlaris',

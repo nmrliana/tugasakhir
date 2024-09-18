@@ -11,7 +11,8 @@ class PesananMenu extends Model
     protected $table = 'pesanan_menu';
     protected $primaryKey = 'pesanan_menu_id';
 
-    function menu(){
+    function menu()
+    {
         return $this->belongsTo(Menu::class, 'menu_id');
     }
 }

@@ -3,35 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\StokAwal;
 
 class AuthController extends Controller
 {
-    function login(){
-        return view('login')->with('success','Masuk dahulu');
+    function login()
+    {
+        return view('login')->with('success', 'Masuk dahulu');
     }
 
-    public function loginProses(Request $request) {
+    public function loginProses(Request $request)
+    {
         $credentials = $request->only('email', 'password');
-    
+
         if (Auth::attempt($credentials)) {
             if (Auth::user()->karyawan_posisi == 1) {
-                return redirect()->intended('kasir/beranda')->with('success', 'Selamat datang kembali');
-                } else if(Auth::user()->karyawan_posisi == 0){
-                    $url = 'admin/beranda';
-                    return redirect($url)->with('success', 'Selamat datang kembali, lengkapi stok awal hari ini !!!');
-            
-            }else{
-                return back()->with('warning', 'Login Gagal, Periksa email atau password anda !!');
+                return redirect()->intended('kasir/beranda')->with('success', 'Selamat datang di dashboard Kasir');
             }
-        } else {
-            return back()->with('warning', 'Login Gagal, Periksa email atau password anda !!');
         }
+
+        return back()->withErrors(['email' => 'Email atau password salah']);
     }
 
-function logout(){
-    Auth::logout();
-    return redirect('login')->with('success','Berhasil keluar');
-}
+    public function logout() // Pindahkan fungsi logout ke dalam kelas
+    {
+        Auth::logout();
+        return redirect('login')->with('success', 'Berhasil keluar');
+    }
 }
